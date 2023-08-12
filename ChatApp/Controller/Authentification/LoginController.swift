@@ -18,27 +18,42 @@ class LoginController: UIViewController {
         return iv
     }()
     
-    private let emailContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .cyan
-        view.setHeight(height: 50)
-        return view
+    private lazy var emailContainerView: UIView = {
+        return InputContainerView(image: UIImage(systemName: "envelope"), textfield: emailTextField)
     }()
     
-    private let passwordContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .yellow
-        view.setHeight(height: 50)
-        return view
+    private lazy var passwordContainerView: InputContainerView = {
+        return InputContainerView(image: UIImage(systemName: "lock"), textfield: passwordTextField)
+    }()
+    
+    private let emailTextField: CustomTextField =  CustomTextField(placeholder: "Email")
+    
+    private let passwordTextField: CustomTextField = {
+        let tf = CustomTextField(placeholder: "Password")
+        tf.isSecureTextEntry = true
+        return tf
     }()
     
     private let loginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Login", for: .normal)
-        button.layer.cornerRadius = 5
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-        button.backgroundColor = .systemRed
+        let button = UIButton(type: .system)
+        button.setTitle("LOGIN", for: .normal)
+        button.layer.cornerRadius = 8
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        button.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
+        button.setTitleColor(.white, for: .normal)
         button.setHeight(height: 50)
+        return button
+    }()
+    
+    private lazy var donttHaveAccountButton: UIButton = {
+        let button = UIButton(type: .system)
+        
+        let attributedTitle = NSMutableAttributedString(string: "Don't have an account? ", attributes: [.font: UIFont.systemFont(ofSize: 15), .foregroundColor: UIColor.white])
+        attributedTitle.append(NSAttributedString(string: "Sign Up", attributes: [.font: UIFont.boldSystemFont(ofSize: 15), .foregroundColor: UIColor.white]))
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        
+        button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
+        
         return button
     }()
     
@@ -50,6 +65,11 @@ class LoginController: UIViewController {
     }
     
     // MARK: - Selector
+    
+    @objc func handleShowSignUp() {
+        let controller = RegistrationController()
+        navigationController?.pushViewController(controller, animated: true)
+    }
     
     // MARK: - Helpers
     
@@ -66,9 +86,12 @@ class LoginController: UIViewController {
         
         let stack = UIStackView(arrangedSubviews: [emailContainerView, passwordContainerView, loginButton])
         stack.axis = .vertical
-        stack.spacing = 16
+        stack.spacing = 20
         view.addSubview(stack)
         stack.anchor(top: iconImage.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 32, paddingLeft: 32, paddingRight: 32)
+        
+        view.addSubview(donttHaveAccountButton)
+        donttHaveAccountButton.anchor(left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingLeft: 32, paddingBottom: 6, paddingRight: 32)
     }
     
     func configureGradientLayer() {

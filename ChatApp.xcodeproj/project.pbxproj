@@ -17,6 +17,8 @@
 		29AFDCC22A84E018008AB9C9 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AFDCC12A84E018008AB9C9 /* RegistrationController.swift */; };
 		29AFDCC42A84E023008AB9C9 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AFDCC32A84E023008AB9C9 /* LoginController.swift */; };
 		29AFDCC82A84E338008AB9C9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AFDCC72A84E338008AB9C9 /* Extensions.swift */; };
+		29B61A6F2A87676A0099C17D /* InputContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B61A6E2A87676A0099C17D /* InputContainerView.swift */; };
+		29B61A712A876A5B0099C17D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29B61A702A876A5B0099C17D /* CustomTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		29AFDCC12A84E018008AB9C9 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		29AFDCC32A84E023008AB9C9 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		29AFDCC72A84E338008AB9C9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		29B61A6E2A87676A0099C17D /* InputContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputContainerView.swift; sourceTree = "<group>"; };
+		29B61A702A876A5B0099C17D /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +119,8 @@
 		29AFDCBC2A84B7C3008AB9C9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				29B61A6E2A87676A0099C17D /* InputContainerView.swift */,
+				29B61A702A876A5B0099C17D /* CustomTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -207,12 +213,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				29AFDCA92A84B785008AB9C9 /* ViewController.swift in Sources */,
+				29B61A6F2A87676A0099C17D /* InputContainerView.swift in Sources */,
 				29AFDCC42A84E023008AB9C9 /* LoginController.swift in Sources */,
 				29AFDCA52A84B785008AB9C9 /* AppDelegate.swift in Sources */,
 				29AFDCBF2A84B855008AB9C9 /* ConversationController.swift in Sources */,
 				29AFDCC22A84E018008AB9C9 /* RegistrationController.swift in Sources */,
 				29AFDCA72A84B785008AB9C9 /* SceneDelegate.swift in Sources */,
 				29AFDCC82A84E338008AB9C9 /* Extensions.swift in Sources */,
+				29B61A712A876A5B0099C17D /* CustomTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
