@@ -7,9 +7,17 @@
 
 import UIKit
 
+protocol AuthentificationControllerProtocol {
+    func checkFormStatus()
+}
+
 class LoginController: UIViewController {
     
     // MARK: - Properties
+    
+    private var viewModel = LoginViewModel()
+    
+    // MARK: - Properties View
     
     private let iconImage: UIImageView = {
         let iv = UIImageView()
@@ -34,7 +42,7 @@ class LoginController: UIViewController {
         return tf
     }()
     
-    private let loginButton: UIButton = {
+    private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("LOGIN", for: .normal)
         button.layer.cornerRadius = 8
@@ -42,6 +50,8 @@ class LoginController: UIViewController {
         button.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
         button.setTitleColor(.white, for: .normal)
         button.setHeight(height: 50)
+        button.isEnabled = false
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
     
@@ -62,13 +72,28 @@ class LoginController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureNotificationObservers()
     }
     
     // MARK: - Selector
     
+    @objc func handleLogin() {
+        print("DEBUG: Handle login here !")
+    }
+    
     @objc func handleShowSignUp() {
         let controller = RegistrationController()
         navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    @objc func textDidChange(sender: UITextField) {
+        if sender == emailTextField {
+            viewModel.email = sender.text
+        } else {
+            viewModel.password = sender.text
+        }
+        
+        checkFormStatus()
     }
     
     // MARK: - Helpers
@@ -94,4 +119,21 @@ class LoginController: UIViewController {
         donttHaveAccountButton.anchor(left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingLeft: 32, paddingBottom: 6, paddingRight: 32)
     }
     
+    func configureNotificationObservers() {
+        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+    }
+    
+}
+
+extension LoginController: AuthentificationControllerProtocol {
+    func checkFormStatus() {
+        if viewModel.formIsValid {
+            loginButton.isEnabled = true
+            loginButton.backgroundColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+        } else {
+            loginButton.isEnabled = false
+            loginButton.backgroundColor = #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
+        }
+    }
 }

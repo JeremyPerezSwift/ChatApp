@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		290A404E2A8A21E30038B10F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290A404D2A8A21E30038B10F /* LoginViewModel.swift */; };
+		290A40502A8A54D40038B10F /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 290A404F2A8A54D40038B10F /* RegistrationViewModel.swift */; };
 		29AFDCA52A84B785008AB9C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AFDCA42A84B785008AB9C9 /* AppDelegate.swift */; };
 		29AFDCA72A84B785008AB9C9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AFDCA62A84B785008AB9C9 /* SceneDelegate.swift */; };
 		29AFDCA92A84B785008AB9C9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29AFDCA82A84B785008AB9C9 /* ViewController.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		290A404D2A8A21E30038B10F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		290A404F2A8A54D40038B10F /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		29AFDCA12A84B785008AB9C9 /* ChatApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		29AFDCA42A84B785008AB9C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		29AFDCA62A84B785008AB9C9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +53,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		290A40512A8A54D70038B10F /* Authentification */ = {
+			isa = PBXGroup;
+			children = (
+				290A404D2A8A21E30038B10F /* LoginViewModel.swift */,
+				290A404F2A8A54D40038B10F /* RegistrationViewModel.swift */,
+			);
+			path = Authentification;
+			sourceTree = "<group>";
+		};
 		29AFDC982A84B785008AB9C9 = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +125,7 @@
 		29AFDCBB2A84B7C1008AB9C9 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				290A40512A8A54D70038B10F /* Authentification */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -213,6 +227,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				29AFDCA92A84B785008AB9C9 /* ViewController.swift in Sources */,
+				290A40502A8A54D40038B10F /* RegistrationViewModel.swift in Sources */,
 				29B61A6F2A87676A0099C17D /* InputContainerView.swift in Sources */,
 				29AFDCC42A84E023008AB9C9 /* LoginController.swift in Sources */,
 				29AFDCA52A84B785008AB9C9 /* AppDelegate.swift in Sources */,
@@ -220,6 +235,7 @@
 				29AFDCC22A84E018008AB9C9 /* RegistrationController.swift in Sources */,
 				29AFDCA72A84B785008AB9C9 /* SceneDelegate.swift in Sources */,
 				29AFDCC82A84E338008AB9C9 /* Extensions.swift in Sources */,
+				290A404E2A8A21E30038B10F /* LoginViewModel.swift in Sources */,
 				29B61A712A876A5B0099C17D /* CustomTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
