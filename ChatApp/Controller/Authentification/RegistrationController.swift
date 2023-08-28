@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseStorage
+import JGProgressHUD
 
 class RegistrationController: UIViewController {
     
     // MARK: - Properties
     
     private var viewModel = RegistrationViewModel()
+    private var profileImage: UIImage?
     
     // MARK: - Properties UI
     
@@ -52,7 +56,7 @@ class RegistrationController: UIViewController {
         return tf
     }()
     
-    private let signupButton: UIButton = {
+    private lazy var signupButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign Up", for: .normal)
         button.layer.cornerRadius = 8
@@ -61,7 +65,7 @@ class RegistrationController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.setHeight(height: 50)
         button.isEnabled = false
-//        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
         return button
     }()
     
@@ -113,6 +117,46 @@ class RegistrationController: UIViewController {
         checkFormStatus()
     }
     
+    @objc func handleRegistration() {
+        if emailTextField.text != "" && passwordTextField.text != "" && fullnameTextField.text != "" && usernameTextField.text != "" && profileImage != nil {
+            guard let email = emailTextField.text else { return }
+            guard let password = passwordTextField.text else { return }
+            guard let fullname = fullnameTextField.text else { return }
+            guard let username = usernameTextField.text else { return }
+            guard let image = profileImage else { return }
+            
+            showLoader(true)
+            
+            let credentials: RegistrationCredentitals = RegistrationCredentitals(email: email, password: password, fullname: fullname, username: username, profileImage: image)
+            
+            AuthService.shared.createUSer(credentials: credentials) { error in
+                if let error = error {
+                    print("DEBUg: Failed to upload user data with error \(error.localizedDescription)")
+                    self.showLoader(false)
+                    return
+                }
+                
+                print("DEBUG: Did create user...")
+                self.showLoader(false)
+                self.dismiss(animated: true)
+            }
+        } else {
+            print("DEBUG: handleRegistration Error")
+        }
+    }
+    
+    @objc func keyboardWillShow() {
+        if view.frame.origin.y == 0 {
+            self.view.frame.origin.y -= 88
+        }
+    }
+    
+    @objc func keyboardWillHide() {
+        if view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
+    
     // MARK: - Helpers
     
     func configureUI() {
@@ -141,6 +185,9 @@ class RegistrationController: UIViewController {
         passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         fullnameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
         usernameTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
 }
@@ -150,6 +197,9 @@ class RegistrationController: UIViewController {
 extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let image = info[.originalImage] as? UIImage
+        
+        profileImage = image
+        
         plusPhotoButton.setImage(image?.withRenderingMode(.alwaysOriginal), for: .normal)
         plusPhotoButton.layer.borderColor = UIColor(white: 1, alpha: 0.7).cgColor
         plusPhotoButton.layer.borderWidth = 3.0

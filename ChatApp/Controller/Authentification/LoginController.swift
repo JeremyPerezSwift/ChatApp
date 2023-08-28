@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Firebase
+import JGProgressHUD
 
 protocol AuthentificationControllerProtocol {
     func checkFormStatus()
@@ -78,7 +80,22 @@ class LoginController: UIViewController {
     // MARK: - Selector
     
     @objc func handleLogin() {
-        print("DEBUG: Handle login here !")
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        
+        showLoader(true)
+        
+        AuthService.shared.logUserIn(email: email, password: password) { result, error in
+            if let error = error {
+                print("DEBUg: Failed to sign in with error \(error.localizedDescription)")
+                self.showLoader(false)
+                return
+            }
+            
+            print("DEBUG: User longin successfuly")
+            self.showLoader(false)
+            self.dismiss(animated: true)
+        }
     }
     
     @objc func handleShowSignUp() {
