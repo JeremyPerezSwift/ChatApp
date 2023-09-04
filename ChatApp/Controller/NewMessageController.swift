@@ -9,11 +9,17 @@ import UIKit
 
 private let reuseIdentifier = "UserCell"
 
+protocol NewMessageControllerDelegate: AnyObject {
+    func controller(_ controller: NewMessageController, wantsTotStartChatWith user: User)
+}
+
 class NewMessageController: UITableViewController {
     
     // MARK: - Properties
     
     private var users: [User] = [User]()
+    
+    weak var delegate: NewMessageControllerDelegate?
     
     // MARK: - Lifecycle
     
@@ -69,6 +75,7 @@ extension NewMessageController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
+        delegate?.controller(self, wantsTotStartChatWith: users[indexPath.row])
     }
     
 }
