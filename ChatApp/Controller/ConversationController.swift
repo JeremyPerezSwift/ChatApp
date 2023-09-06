@@ -15,6 +15,7 @@ class ConversationController: UIViewController {
     // MARK: - Properties
     
     private let tableView = UITableView()
+    private var conversations = [Conversation]()
     
     private lazy var newMessageButton: UIButton = {
         let button = UIButton(type: .system)
@@ -34,12 +35,22 @@ class ConversationController: UIViewController {
         super.viewDidLoad()
         configureUI()
         authentificationUser()
+        fetchConversations()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationBar(withTitle: "Messages", prefersLArgeTitle: true)
     }
     
     // MARK: - Selector
     
     @objc func showProfile() {
-        logout()
+        let controller = ProfileController(style: .insetGrouped)
+        controller.delegate = self
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
     }
     
     @objc func showNewMessage() {
@@ -70,6 +81,13 @@ class ConversationController: UIViewController {
         }
     }
     
+    func fetchConversations() {
+        Service.fetchConversations { conversations in
+            self.conversations = conversations
+            self.tableView.reloadData()
+        }
+    }
+    
     // MARK: - Helpers
     
     func presentLoginScreen() {
@@ -84,7 +102,6 @@ class ConversationController: UIViewController {
     func configureUI() {
         view.backgroundColor = .white
         
-        configureNavigationBar(withTitle: "Messages", prefersLArgeTitle: true)
         configureTableView()
         
         let image = UIImage(systemName: "person.circle.fill")
@@ -97,7 +114,7 @@ class ConversationController: UIViewController {
     func configureTableView() {
         tableView.backgroundColor = .white
         tableView.rowHeight = 80
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(ConversationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.tableFooterView = UIView()
         
         tableView.delegate = self
@@ -107,18 +124,23 @@ class ConversationController: UIViewController {
         tableView.frame = view.frame
     }
     
+    func showChatController(forUser user: User) {
+        let chat = ChatController(user: user)
+        navigationController?.pushViewController(chat, animated: true)
+    }
+    
 }
 
 extension ConversationController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return conversations.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath)
-        cell.textLabel?.text = "Test Cell"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as? ConversationCell else { return UITableViewCell() }
+        cell.conversation = conversations[indexPath.row]
         return cell
     }
     
@@ -127,7 +149,8 @@ extension ConversationController: UITableViewDataSource {
 extension ConversationController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
+        let user = conversations[indexPath.row].user
+        showChatController(forUser: user)
     }
     
 }
@@ -138,9 +161,13 @@ extension ConversationController: NewMessageControllerDelegate {
     
     func controller(_ controller: NewMessageController, wantsTotStartChatWith user: User) {
         controller.dismiss(animated: true)
-        let chat = ChatController(user: user)
-        navigationController?.pushViewController(chat, animated: true)
-        
+        showChatController(forUser: user)
     }
     
+}
+
+extension ConversationController: ProfileControllerDelegate {
+    func handleLougout() {
+        logout()
+    }
 }

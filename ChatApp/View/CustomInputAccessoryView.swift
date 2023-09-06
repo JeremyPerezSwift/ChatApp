@@ -92,4 +92,9 @@ class CustomInputAccessoryView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextInputChange), name: UITextView.textDidChangeNotification, object: nil)
     }
     
+    func clearMessageText() {
+        messageInputTextView.text = nil
+        placeholderLabel.isHidden = false
+    }
+    
 }
